@@ -7,7 +7,7 @@ function App() {
   const nameRef = useRef()
   const techRef = useRef()
   useEffect(() => {
-    axios.get('http://127.0.0.1:4000/getUsers').then(users => {
+    axios.get('http://127.0.0.1:4000/users/getUsers').then(users => {
       setUsers(users.data)
       console.log(users)
     }).catch(err => console.error(err))
@@ -15,11 +15,11 @@ function App() {
 
   const handleSaveUser = (e) => {
     e.preventDefault();
-    axios.post('http://127.0.0.1:4000/addUser',
+    axios.post('http://127.0.0.1:4000/users/addUser',
       { name: nameRef.current.value, tech: techRef.current.value })
       .then((user) => {
         console.log(users)
-        setUsers = [...users, user]
+        setUsers([...users, user.data])
       })
       .catch(err => console.error(err))
   }
@@ -31,9 +31,7 @@ function App() {
       {users.map((user, i) => {
         return <div key={i}>
           <ul>
-            <li>
-              {user.name}, {user.tech}
-            </li>
+            #{i + 1} :  {user.name}, {user.tech}
           </ul>
         </div>
       })}
